@@ -1,7 +1,7 @@
 {
   "name": "Amazon-SNS-SMS-express-example",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "bin/app.js",
   "scripts": {
     "start": "node bin/app.js",
     "serve": "rm -rf bin && tsc-watch -p . --onSuccess \"node .\"",
@@ -9,5 +9,15 @@
   },
   "repository": "https://github.com/cokia/Amazon-SNS-SMS-express-example",
   "author": "hanu@cloudus.io",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.610.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.2"
+  }
 }
