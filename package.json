@@ -1,0 +1,13 @@
+{
+  "name": "Amazon-SNS-SMS-express-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node bin/app.js",
+    "serve": "rm -rf bin && tsc-watch -p . --onSuccess \"node .\"",
+    "prestart": "tsc"
+  },
+  "repository": "https://github.com/cokia/Amazon-SNS-SMS-express-example",
+  "author": "hanu@cloudus.io",
+  "license": "MIT"
+}
