@@ -1,7 +1,7 @@
 import express, { Application } from 'express';
 import cors from 'cors';
-const sns = require("aws-sdk/clients/sns");
-
+import * as aws from 'aws-sdk'
+aws.config.update({accessKeyId: <key>, secretAccessKey: <privkey> })
 class App {
     public application: Application;
     constructor() {
@@ -24,7 +24,7 @@ class App {
   })
 
   app.post('/',async function(req, res){
-    const message:string = req.query.message;
+    const message:string = req.body.message;
     const PhoneNumber:string = req.query.phonenumber;
     const region:string = req.query.region;
     if(!message){
@@ -36,21 +36,22 @@ class App {
     if(!region){
       console.log("no region")
     }
+    aws.config.update({region: region});
     const params = {
       Message: message,
       MessageStructure: 'string',
       PhoneNumber: PhoneNumber
     };
+    const publishTextPromise = new aws.SNS({apiVersion: '2010-03-31'}).publish(params).promise();
 
-    const snsClient = new sns({
-      region: region,
-      Credential : {accessKeyId: "<key>", secretAccessKey: "<privkey>" }
-    });
-
-    snsClient.publish(params, (err:any,data:string) => {
-      if(err) console.log(err)
-      console.log(data)
-      res.status(200).send(data);
-    });
+    publishTextPromise.then(
+      function(data) {
+        console.log("MessageID is " + data.MessageId);
+        res.status(200).send(data);
+      }).catch(
+        function(err) {
+        console.error(err, err.stack);
+        res.status(500).send(err);
+      });
   
   })
