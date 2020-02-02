@@ -1,7 +1,7 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import * as aws from 'aws-sdk'
-aws.config.update({accessKeyId: <key>, secretAccessKey: <privkey> })
+aws.config.update({accessKeyId: "<key>", secretAccessKey: "<privkey>" })
 class App {
     public application: Application;
     constructor() {
@@ -24,7 +24,7 @@ class App {
   })
 
   app.post('/',async function(req, res){
-    const message:string = req.body.message;
+    const message:string = req.query.message;
     const PhoneNumber:string = req.query.phonenumber;
     const region:string = req.query.region;
     if(!message){
@@ -38,6 +38,9 @@ class App {
     }
     aws.config.update({region: region});
     const params = {
+      attributes: {
+        'DefaultSMSType': 'Transactional'
+      },
       Message: message,
       MessageStructure: 'string',
       PhoneNumber: PhoneNumber
